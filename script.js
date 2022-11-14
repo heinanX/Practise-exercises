@@ -9,10 +9,10 @@ listContainer.appendChild(toDoList);
 listContainer.appendChild(trashList);
 
 const toDos = [
-    "Clean bathroom floor",
+/*     "Clean bathroom floor",
     "Feed the dog",
     "Clean the fishes",
-    "Charge the phone"
+    "Charge the phone" */
 ];
 
 function printOut() {
@@ -29,22 +29,20 @@ function printOut() {
 
         elementContainer.append(i, paragraph)
 
-        paragraph.innerHTML += toDo //        <<<<<<<<---------------------
+        paragraph.innerHTML += toDo
 
         toDoList.appendChild(elementContainer)
 
 
         i.addEventListener("click", () => {
-            checkBox(i,elementContainer,paragraph)   //        <<<<<<<<---------------------
+            checkBox(i, elementContainer, paragraph)
         })
     })
 }
 
-printOut()
-
-function checkBox(icon, elementContainer,paragraph) {     //        <<<<<<<<---------------------
+function checkBox(icon, elementContainer,paragraph) {
     icon.setAttribute("class", "fa-regular fa-square-check")
-    paragraph.style = "text-decoration: line-through"
+    paragraph.style = "text-decoration: line-through #191a21 3px"
     setTimeout(()=>{
         icon.setAttribute("class", "fa-solid fa-trash")
     },500)
@@ -52,6 +50,7 @@ function checkBox(icon, elementContainer,paragraph) {     //        <<<<<<<<----
     icon.addEventListener("click", ()=>{
         console.log(toDos)
         elementContainer.remove()
+        toDos.splice(elementContainer, 1)
         trashList.append(paragraph)
     })
 
