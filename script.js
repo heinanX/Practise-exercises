@@ -3,7 +3,10 @@ const submitBtn = document.querySelector(".submitBtn");
 const InputField = document.querySelector(".InputField");
 const ulist = document.createElement("ul");
 listContainer.appendChild(ulist);
-const iconWhite = document.createElement("i");
+
+
+const iconTrash = document.createElement("i");
+iconTrash.setAttribute("class", "fa-solid fa-trash")
 
 
 
@@ -16,18 +19,54 @@ const toDos = [
 
 
 
+
 function printOut() {
     ulist.innerHTML = ""
+
+/*     const iconSquare = document.createElement("a"); */
+/*     iconSquare.setAttribute("type", "button") */
+
+ /*    iconSquare.appendChild(i) */
+
     toDos.forEach(toDo => {
-        ulist.appendChild(document.createElement("p")).innerHTML+=toDo
+        const elementContainer = document.createElement("div")
+        elementContainer.setAttribute("class", "elementContainer")
+
+        const i = document.createElement("i");
+        i.setAttribute("class", "fa-regular fa-square");
+
+        const paragraph = document.createElement("p");
+
+        elementContainer.append(i, paragraph)
+
+        paragraph.innerText += toDo
+
+        ulist.appendChild(elementContainer)
+
+
+        i.addEventListener("click", checkBox)
     })
+
+
+
 }
 
 printOut()
 
+function checkBox(icon) {
+    toDos.findIndex(icon)
+
+   console.log("hej")
+
+    
+
+}
+
+
 submitBtn.onclick = () => {
     toDos.push(InputField.value)
     printOut();
+    InputField.value = ""
     console.log(toDos)
 };
 
