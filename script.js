@@ -1,14 +1,12 @@
 const listContainer = document.querySelector(".listContainer");
 const submitBtn = document.querySelector(".submitBtn");
 const InputField = document.querySelector(".InputField");
-const ulist = document.createElement("ul");
-listContainer.appendChild(ulist);
-
-
-const iconTrash = document.createElement("i");
-iconTrash.setAttribute("class", "fa-solid fa-trash")
-
-
+const toDoList = document.createElement("ul");
+toDoList.setAttribute("class", "toDoList")
+const trashList = document.createElement("ul");
+trashList.setAttribute("class", "trashList")
+listContainer.appendChild(toDoList);
+listContainer.appendChild(trashList);
 
 const toDos = [
     "Clean bathroom floor",
@@ -17,16 +15,8 @@ const toDos = [
     "Charge the phone"
 ];
 
-
-
-
 function printOut() {
-    ulist.innerHTML = ""
-
-/*     const iconSquare = document.createElement("a"); */
-/*     iconSquare.setAttribute("type", "button") */
-
- /*    iconSquare.appendChild(i) */
+    toDoList.innerHTML = ""
 
     toDos.forEach(toDo => {
         const elementContainer = document.createElement("div")
@@ -39,29 +29,36 @@ function printOut() {
 
         elementContainer.append(i, paragraph)
 
-        paragraph.innerText += toDo
+        paragraph.innerHTML += toDo //        <<<<<<<<---------------------
 
-        ulist.appendChild(elementContainer)
+        toDoList.appendChild(elementContainer)
 
 
-        i.addEventListener("click", checkBox)
+        i.addEventListener("click", () => {
+            checkBox(i,elementContainer,paragraph)   //        <<<<<<<<---------------------
+        })
     })
-
-
-
 }
 
 printOut()
 
-function checkBox(icon) {
-    toDos.findIndex(icon)
+function checkBox(icon, elementContainer,paragraph) {     //        <<<<<<<<---------------------
+    icon.setAttribute("class", "fa-regular fa-square-check")
+    paragraph.style = "text-decoration: line-through"
+    setTimeout(()=>{
+        icon.setAttribute("class", "fa-solid fa-trash")
+    },500)
 
-   console.log("hej")
+    icon.addEventListener("click", ()=>{
+        console.log(toDos)
+        elementContainer.remove()
+        trashList.append(paragraph)
+    })
 
-    
-
+    console.log(elementContainer)
+    console.log(icon)
+    console.log(paragraph)
 }
-
 
 submitBtn.onclick = () => {
     toDos.push(InputField.value)
@@ -69,11 +66,3 @@ submitBtn.onclick = () => {
     InputField.value = ""
     console.log(toDos)
 };
-
-
-
-/* <i class="fa-regular fa-square"></i> */
-//<i class="fa-regular fa-square-check"></i>
-//<i class="fa-regular fa-trash"></i>
-
-    // console.log("fhdf")

@@ -16,7 +16,7 @@ body {
     height: 100vh;
     width: 30rem;
     border: 1px solid black;
-    background-color: bisque;
+    background-color: rgb(39, 38, 38);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -24,15 +24,50 @@ body {
 }
 
  .listContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: larger;
     width: 28rem;
-    height: 85%;
+    height: 40rem;
     padding: 1rem;
     margin-bottom: 1rem;
-    background-color: blanchedalmond;
+    background-color: rgb(66, 65, 64);
     border: 1px solid black
 } 
 
-.container {
+.toDoList {
+    height: 20rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    overflow: auto;
+}
+
+.fa-square {
+    color: white;
+    font-size: larger;
+}
+
+.fa-square-check {
+    color: rgb(19, 249, 7);
+    font-size: larger;
+}
+
+.fa-trash {
+    color: rgb(249, 47, 7);
+    font-size: larger;
+}
+
+.trashList {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    height: 15rem;
+    overflow: auto;
+}
+
+.inputContainer {
     width: 28rem;
     display: flex;
     justify-content: space-between;
