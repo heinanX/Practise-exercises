@@ -9,16 +9,25 @@ listContainer.appendChild(toDoList);
 listContainer.appendChild(trashList);
 
 const toDos = [
-/*     "Clean bathroom floor",
-    "Feed the dog",
-    "Clean the fishes",
-    "Charge the phone" */
+     "Clean bathroom floor",
+    // "Feed the dog",
+    // "Clean the fishes",
+    // "Charge the phone" 
 ];
+
+function init() {
+    if (!localStorage.getItem("toDos")) {
+        localStorage.setItem("toDos", JSON.stringify(toDos))
+    }
+    printOut()
+}
+
+init();
 
 function printOut() {
     toDoList.innerHTML = ""
-
-    toDos.forEach(toDo => {
+    const newToDo = JSON.parse(localStorage.getItem("toDos"))
+    newToDo.forEach(toDo => {
         const elementContainer = document.createElement("div")
         elementContainer.setAttribute("class", "elementContainer")
 
@@ -48,20 +57,17 @@ function checkBox(icon, elementContainer,paragraph) {
     },500)
 
     icon.addEventListener("click", ()=>{
-        console.log(toDos)
         elementContainer.remove()
         toDos.splice(elementContainer, 1)
         trashList.append(paragraph)
     })
-
-    console.log(elementContainer)
-    console.log(icon)
-    console.log(paragraph)
 }
 
 submitBtn.onclick = () => {
-    toDos.push(InputField.value)
+    const newToDo = JSON.parse(localStorage.getItem("toDos"))
+
+    newToDo.push(InputField.value)
+    localStorage.setItem("toDos", (JSON.stringify(newToDo)))
     printOut();
     InputField.value = ""
-    console.log(toDos)
 };
