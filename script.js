@@ -8,16 +8,16 @@ trashList.setAttribute("class", "trashList")
 listContainer.appendChild(toDoList);
 listContainer.appendChild(trashList);
 
-const toDos = [
-     "Clean bathroom floor",
-    // "Feed the dog",
-    // "Clean the fishes",
-    // "Charge the phone" 
-];
+const toDos = [];
+
+const done = [];
 
 function init() {
     if (!localStorage.getItem("toDos")) {
         localStorage.setItem("toDos", JSON.stringify(toDos))
+    }
+    if (!localStorage.getItem("done")) {
+        localStorage.setItem("done", JSON.stringify(done))
     }
     printOut()
 }
@@ -57,6 +57,10 @@ function checkBox(icon, elementContainer,paragraph) {
     },500)
 
     icon.addEventListener("click", ()=>{
+        const doneToRemove =  JSON.parse(localStorage.getItem("done"))
+        doneToRemove.push(paragraph.innerText)
+        console.log(paragraph.innerText)
+        localStorage.setItem("done", JSON.stringify(doneToRemove))
         elementContainer.remove()
         toDos.splice(elementContainer, 1)
         trashList.append(paragraph)
