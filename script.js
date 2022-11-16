@@ -20,6 +20,12 @@ function init() {
         localStorage.setItem("done", JSON.stringify(done))
     }
     printOut()
+    const addRemoved =  JSON.parse(localStorage.getItem("done"))
+    addRemoved.forEach(toDo => {
+        const li = document.createElement("li");
+        li.innerText += toDo
+        trashList.appendChild(li)
+    })
 }
 
 init();
@@ -58,11 +64,21 @@ function checkBox(icon, elementContainer,paragraph) {
 
     icon.addEventListener("click", ()=>{
         const doneToRemove =  JSON.parse(localStorage.getItem("done"))
-        doneToRemove.push(paragraph.innerText)
+        const removeFromToDos =  JSON.parse(localStorage.getItem("toDos"))
+
+        const index = removeFromToDos.findIndex(item => paragraph.innerText == item );
         console.log(paragraph.innerText)
+        console.log(index)
+        removeFromToDos.splice(index, 1);
+
+        // removeFromToDos.splice(elementContainer, 1)
+        localStorage.setItem("toDos", JSON.stringify(removeFromToDos))
+        doneToRemove.push(paragraph.innerText)
+
         localStorage.setItem("done", JSON.stringify(doneToRemove))
         elementContainer.remove()
         toDos.splice(elementContainer, 1)
+        
         trashList.append(paragraph)
     })
 }
