@@ -8,9 +8,13 @@ trashList.setAttribute("class", "trashList")
 listContainer.appendChild(toDoList);
 listContainer.appendChild(trashList);
 
+// ----- Empty Arrays which is stored in LS
+
 const toDos = [];
 
 const done = [];
+
+// ----- Prints out stored stuff from LS
 
 function init() {
     if (!localStorage.getItem("toDos")) {
@@ -19,41 +23,53 @@ function init() {
     if (!localStorage.getItem("done")) {
         localStorage.setItem("done", JSON.stringify(done))
     }
-    printOut()
+    
     const addRemoved =  JSON.parse(localStorage.getItem("done"))
     addRemoved.forEach(toDo => {
         const li = document.createElement("li");
         li.innerText += toDo
         trashList.appendChild(li)
     })
+    printOut()
 }
 
+// cals on the "init" function
+
 init();
+
+// ----- "OK" button that pushes "inputfield" value to LS and cals on the "printOut" function
+
+submitBtn.onclick = () => {
+    const newToDo = JSON.parse(localStorage.getItem("toDos"))
+    newToDo.push(InputField.value)
+    localStorage.setItem("toDos", (JSON.stringify(newToDo)))
+    printOut();
+    InputField.value = ""
+};
+
+// ----- each toDos in LS appends to elementContainer from index.html
 
 function printOut() {
     toDoList.innerHTML = ""
     const newToDo = JSON.parse(localStorage.getItem("toDos"))
+
     newToDo.forEach(toDo => {
         const elementContainer = document.createElement("div")
         elementContainer.setAttribute("class", "elementContainer")
-
-        const i = document.createElement("i");
-        i.setAttribute("class", "fa-regular fa-square");
-
+        const icon = document.createElement("i");
+        icon.setAttribute("class", "fa-regular fa-square");
         const paragraph = document.createElement("p");
-
-        elementContainer.append(i, paragraph)
-
+        elementContainer.append(icon, paragraph)
         paragraph.innerHTML += toDo
-
         toDoList.appendChild(elementContainer)
 
-
-        i.addEventListener("click", () => {
-            checkBox(i, elementContainer, paragraph)
+        icon.addEventListener("click", () => {
+            checkBox(icon, elementContainer, paragraph)
         })
     })
 }
+
+// ----- changes the checkbox icon when clicking on it
 
 function checkBox(icon, elementContainer,paragraph) {
     icon.setAttribute("class", "fa-regular fa-square-check")
@@ -62,32 +78,18 @@ function checkBox(icon, elementContainer,paragraph) {
         icon.setAttribute("class", "fa-solid fa-trash")
     },500)
 
+    // ----- Removes toDos from LS Key "toDos" and adds it to LS key "done"
+
     icon.addEventListener("click", ()=>{
         const doneToRemove =  JSON.parse(localStorage.getItem("done"))
         const removeFromToDos =  JSON.parse(localStorage.getItem("toDos"))
-
-        const index = removeFromToDos.findIndex(item => paragraph.innerText == item );
-        console.log(paragraph.innerText)
-        console.log(index)
+        const index = removeFromToDos.findIndex(toDos => paragraph.innerText == toDos );
         removeFromToDos.splice(index, 1);
-
-        // removeFromToDos.splice(elementContainer, 1)
         localStorage.setItem("toDos", JSON.stringify(removeFromToDos))
         doneToRemove.push(paragraph.innerText)
-
         localStorage.setItem("done", JSON.stringify(doneToRemove))
         elementContainer.remove()
         toDos.splice(elementContainer, 1)
-        
         trashList.append(paragraph)
     })
 }
-
-submitBtn.onclick = () => {
-    const newToDo = JSON.parse(localStorage.getItem("toDos"))
-
-    newToDo.push(InputField.value)
-    localStorage.setItem("toDos", (JSON.stringify(newToDo)))
-    printOut();
-    InputField.value = ""
-};
