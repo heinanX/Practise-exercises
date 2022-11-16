@@ -10,7 +10,9 @@ listContainer.appendChild(trashList);
 
 // ----- Empty Arrays which is stored in LS
 
-const toDos = [];
+const toDos = [
+    "a","b","c","d","e","f","g"
+];
 
 const done = [];
 
@@ -23,14 +25,24 @@ function init() {
     if (!localStorage.getItem("done")) {
         localStorage.setItem("done", JSON.stringify(done))
     }
-    
+    printOut()
+    removeDone()
+}
+
+function removeDone() {
+    trashList.innerText = ""
     const addRemoved =  JSON.parse(localStorage.getItem("done"))
     addRemoved.forEach(toDo => {
         const li = document.createElement("li");
         li.innerText += toDo
         trashList.appendChild(li)
+        li.addEventListener("click", () => {  //  <------------------------------------------------------------------------------
+        const index = addRemoved.findIndex(toDos => toDo == toDos);
+        addRemoved.splice(index, 1);
+        localStorage.setItem("done", JSON.stringify(addRemoved))
+        removeDone()
+        })
     })
-    printOut()
 }
 
 // cals on the "init" function
@@ -90,6 +102,8 @@ function checkBox(icon, elementContainer,paragraph) {
         localStorage.setItem("done", JSON.stringify(doneToRemove))
         elementContainer.remove()
         toDos.splice(elementContainer, 1)
-        trashList.append(paragraph)
+        trashList.append(paragraph)  //  <------------------------------------------------------------------------------
+        console.log(paragraph)
     })
 }
+
