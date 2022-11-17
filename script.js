@@ -29,22 +29,6 @@ function init() {
     removeDone()
 }
 
-function removeDone() {
-    trashList.innerText = ""
-    const addRemoved =  JSON.parse(localStorage.getItem("done"))
-    addRemoved.forEach(toDo => {
-        const li = document.createElement("li");
-        li.innerText += toDo
-        trashList.appendChild(li)
-        li.addEventListener("click", () => {  //  <------------------------------------------------------------------------------
-        const index = addRemoved.findIndex(toDos => toDo == toDos);
-        addRemoved.splice(index, 1);
-        localStorage.setItem("done", JSON.stringify(addRemoved))
-        removeDone()
-        })
-    })
-}
-
 // cals on the "init" function
 
 init();
@@ -93,17 +77,34 @@ function checkBox(icon, elementContainer,paragraph) {
     // ----- Removes toDos from LS Key "toDos" and adds it to LS key "done"
 
     icon.addEventListener("click", ()=>{
+        trashList.innerText = ""
         const doneToRemove =  JSON.parse(localStorage.getItem("done"))
         const removeFromToDos =  JSON.parse(localStorage.getItem("toDos"))
         const index = removeFromToDos.findIndex(toDos => paragraph.innerText == toDos );
         removeFromToDos.splice(index, 1);
+        elementContainer.remove()
         localStorage.setItem("toDos", JSON.stringify(removeFromToDos))
         doneToRemove.push(paragraph.innerText)
         localStorage.setItem("done", JSON.stringify(doneToRemove))
-        elementContainer.remove()
-        toDos.splice(elementContainer, 1)
-        trashList.append(paragraph)  //  <------------------------------------------------------------------------------
-        console.log(paragraph)
+        init()
     })
 }
 
+// ----- Creates an li-element for each thing in LS key "done" and adds an
+// ----- eventlistener to the li-element that removes the li when clicked
+
+function removeDone() {
+    trashList.innerText = ""
+    const addRemoved =  JSON.parse(localStorage.getItem("done"))
+    addRemoved.forEach(toDo => {
+        const li = document.createElement("li");
+        li.innerText += toDo
+        trashList.appendChild(li)
+        li.addEventListener("click", () => {  //  <------------------------------------------------------------------------------
+        const index = addRemoved.findIndex(toDos => toDo == toDos);
+        addRemoved.splice(index, 1);
+        localStorage.setItem("done", JSON.stringify(addRemoved))
+        removeDone()
+        })
+    })
+}
